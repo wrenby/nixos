@@ -26,21 +26,28 @@
     };
   };
 
-  boot.loader = {
-    efi.canTouchEfiVariables = true;
-    grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      useOSProber = true;
-      extraEntries = ''
-        menuentry "UEFI Firmware Settings" --class efi {
-          fwsetup
-        }
-      '';
-      theme = pkgs.catppuccin-grub;
-      splashImage = null;
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub = {
+        enable = true;
+        device = "nodev";
+        efiSupport = true;
+        useOSProber = true;
+        extraEntries = ''
+          menuentry "UEFI Firmware Settings" --class efi {
+            fwsetup
+          }
+        '';
+        # theme = pkgs.catppuccin-grub;
+        # splashImage = null;
+      };
     };
+    # plymouth = {
+    #   enable = true;
+    #   themePackages = [ pkgs.catppuccin-plymouth ];
+    #   theme = "catppuccin-macchiato";
+    # };
   };
 
   networking = {
@@ -88,14 +95,14 @@
     "L+    /opt/rocm/hip    -    -    -    -    ${pkgs.rocmPackages.clr}"
   ];
 
+  # gdm can't detect a user whose default shell isn't in /etc/shells
+  environment.shells = with pkgs; [ zsh ];
+  users.defaultUserShell = pkgs.zsh;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.wren = {
     isNormalUser = true;
     description = "Wren";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
   };
 
   # real-time scheduling priority access for pipewire
@@ -103,45 +110,7 @@
 
   # nix modules https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/programs/
   programs = {
-    firefox = {
-      enable = true;
-      policies = {
-        # informed by https://www.stigviewer.com/stig/mozilla_firefox/
-        DisableTelemetry = true;
-        DisableFirefoxStudies = true;
-        EnableTrackingProtection = {
-          Value = true;
-          Cryptomining = true;
-          Fingerprinting = true;
-          DisabledCiphers = {
-  	  "TLS_RSA_WITH_3DES_EDE_CBC_SHA" = true;
-          };
-          SSLVersionMin = "tls1.2";
-        };
-        FirefoxHome = {
-          Search = true;
-          TopSites = true;
-          SponsoredTopSites = false;
-          Pocket = false;
-          SponsoredPocket = false;
-          Highlights = true;
-          Snippets = false;
-          Locked = true;
-        };
-        Preferences = let
-          lock-false = { Value = false; Status = "locked"; };
-          lock-true = { Value = true; Status = "locked"; };
-        in {
-          "browser.contentblocking.category" = { Value = "strict"; };
-          "browser.search.update" = lock-false;
-          "dom.disable_window_flip" = lock-true;
-          "dom.disable_window_move_resize" = lock-true;
-          "exensions.pocket.enabled" = lock-false;
-          "privacy.trackingprotection.cryptomining.enabled" = lock-true;
-        };
-      };
-    };
-
+    firefox = import ./firefox.nix;
     gnupg.agent = {
       enable = true;
       pinentryPackage = pkgs.pinentry-gtk2;
@@ -163,15 +132,43 @@
         obs-text-pthread
       ];
     };
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestions.enable = true;
+      syntaxHighlighting.enable = true;
+      histSize = 10000;
+
+      ohMyZsh = {
+        enable = true;
+        plugins = [
+          "colored-man-pages"
+          # "cp"
+          "dotenv"
+          "extract"
+          "git" "git-lfs"
+          "gpg-agent"
+          # "ipfs" "mosh" "ngrok"
+          "per-directory-history"
+          # "rsync"
+          "rust"
+          "starship"
+          "ssh"
+        ];
+      };
+    };
   };
 
   services = {
+    displayManager.sddm = {
+      enable = true;
+      package = pkgs.kdePackages.sddm;
+    };
     # x11
     xserver = {
       enable = true;
       videoDrivers = ["amdgpu"];
 
-      displayManager.gdm.enable = true;
       desktopManager.budgie.enable = true;
 
       # keymap
@@ -193,22 +190,18 @@
     # TODO: borgmatic
   };
   
-  qt.platformTheme = "qt5ct";
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # generic command line essentials
-    vim
-    helix # text editor
+    vim # text editor
+    helix # the cooler text editor
+    zellij # terminal multiplexer
     wget
     gparted
     yt-dlp # youtube downloader
-    borgmatic # declarative backups
     efibootmgr # boot to uefi or windows
     mission-center # task manager
-    unstable.ghostty # terminal emulator 
-    zsh
 
     # nix stuff
     nh # nix cli helper
@@ -229,11 +222,13 @@
     blender-hip # gpu-accelerated blender
 
     # theming
-    catppuccin-gtk
-    catppuccin-qt5ct
-    catppuccin-kvantum
-    catppuccin-plymouth
+    # catppuccin-gtk
+    # catppuccin-qt5ct
+    # catppuccin-kvantum
   ];
+
+  # TODO: proper theming
+  qt.platformTheme = "qt5ct";
 
   fonts.packages = with pkgs; [
     noto-fonts
@@ -250,7 +245,7 @@
   ];
   fonts.fontconfig = {
     defaultFonts = {
-      emoji = [ "Twitter Color Emoji"];
+      emoji = [ "Twitter Color Emoji" ];
     };
   };
 
@@ -261,5 +256,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
