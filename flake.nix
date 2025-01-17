@@ -2,19 +2,18 @@
   description = "Your new nix config";
 
   inputs = {
-    # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Home manager
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
+
+    disko = {
+      url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Disko
-    disko = {
-      url = "github:nix-community/disko/latest";
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -25,6 +24,7 @@
     nixpkgs-unstable,
     home-manager,
     disko,
+    firefox-addons,
     ...
   } @ inputs:
   let
@@ -42,6 +42,7 @@
             inherit system;
             config.allowUnfree = true;
             overlays = [
+              # allow access to unstable nixpkgs via nixpkgs.unstable
               (final: prev: {
                 unstable = import nixpkgs-unstable {
                   system = prev.system;
@@ -56,18 +57,15 @@
         modules = [
           ./configuration.nix
           disko.nixosModules.disko
-        ];
-      };
-    };
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.wren = import ./hm/home.nix;
 
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      "wren@photonix" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
-        # > Our main home-manager configuration file <
-        modules = [./home-manager/home.nix];
+            home-manager.extraSpecialArgs = { inherit inputs outputs firefox-addons; };
+          }
+        ];
       };
     };
   };

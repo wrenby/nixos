@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./disko-config.nix
+      ./cachix.nix
     ];
 
   nix = {
@@ -23,10 +24,6 @@
       dates = "weekly";
       options = "--delete-older-than 1M"; # month is capital m
     };
-
-    # download ghostty with cachix
-    # substituters = [ "https://ghostty.cachix.org" ];
-    # trusted-public-keys = [ "ghostty.cachix.org-1:QB389yTa6gTyneehvqG58y0WnHjQOqgnA+wBnpWWxns=" ];
   };
 
   boot.loader = {
@@ -42,11 +39,19 @@
         }
       '';
       theme = pkgs.catppuccin-grub;
+      splashImage = null;
     };
   };
 
-  networking.hostName = "photonix"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking = {
+    hostName = "photonix"; # Define your hostname.
+    # allow KDE connect traffic
+    firewall = rec {
+      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+      allowedUDPPortRanges = allowedTCPPortRanges;
+    };
+  };
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant (instead of NetworkManager!)
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -73,18 +78,35 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the Budgie Desktop environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.budgie.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  # formerly hardware.opengl
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = [ pkgs.rocmPackages.clr.icd ]; # opencl
   };
+  # gtx 970 too old for nix to recommend open source drivers
+  # hardware.nvidia.open = false;
+
+  # Enable the X11 windowing system.
+  services.xserver = {
+    enable = true;
+    videoDrivers = ["amdgpu"];
+    # hardware.nvidia.modesetting.enable = true;
+
+    displayManager.gdm.enable = true;
+    desktopManager.budgie.enable = true;
+
+    # keymap
+    xkb = {
+      layout = "us";
+      variant = "";
+    };
+  };
+
+  # support for hardcoded HIP 
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip    -    -    -    -    ${pkgs.rocmPackages.clr}"
+  ];
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -119,7 +141,52 @@
   };
 
   # Install firefox.
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    policies = {
+      # informed by https://www.stigviewer.com/stig/mozilla_firefox/
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      EnableTrackingProtection = {
+        Value = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+        DisabledCiphers = {
+	  "TLS_RSA_WITH_3DES_EDE_CBC_SHA" = true;
+        };
+        SSLVersionMin = "tls1.2";
+      };
+      FirefoxHome = {
+        Search = true;
+        TopSites = true;
+        SponsoredTopSites = false;
+        Pocket = false;
+        SponsoredPocket = false;
+        Highlights = true;
+        Snippets = false;
+        Locked = true;
+      };
+      Preferences = let
+        lock-false = { Value = false; Status = "locked"; };
+        lock-true = { Value = true; Status = "locked"; };
+      in {
+        "browser.contentblocking.category" = { Value = "strict"; };
+        "browser.search.update" = lock-false;
+        "dom.disable_window_flip" = lock-true;
+        "dom.disable_window_move_resize" = lock-true;
+        "exensions.pocket.enabled" = lock-false;
+        "privacy.trackingprotection.cryptomining.enabled" = lock-true;
+      };
+    };
+  };
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-gtk2;
+    enableSSHSupport = true;
+  };
+  programs.ssh.startAgent = false;
+  services.pcscd.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -129,6 +196,7 @@
   environment.systemPackages = with pkgs; [
     # generic command line essentials
     vim
+    helix # text editor
     wget
     gparted
     yt-dlp # youtube downloader
@@ -140,25 +208,51 @@
 
     # nix stuff
     nh # nix cli helper
-    home-manager
+    home-manager # declarative config files in the home directory
     cachix # binary cache hosting
+    dconf-editor
+    dconf2nix # convert dconf to home-manager nix code
 
     # hell yeah programs
-    blender-hip # gpu-accelerated blender
     libreoffice-fresh
     siril
-    vscode-fhs
-];
+    discord
+    obs-studio
+    obs-studio-plugins.obs-vkcapture
+    emote # emoji picker
+    kdePackages.kdeconnect-kde
+
+    # development
+    clinfo # opencl info
+    vscode-fhs # vs code with native extension support
+    blender-hip # gpu-accelerated blender
+
+    # theming
+    catppuccin-gtk
+    catppuccin-qt5ct
+    catppuccin-kvantum
+    catppuccin-plymouth
+  ];
+  qt.platformTheme = "qt5ct";
 
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    powerline-fonts
+    powerline-symbols
+    twemoji-color-font # svg format
+    twitter-color-emoji # cbdt (bitmap) format
     unstable.nerd-fonts.hack
     unstable.nerd-fonts.fira-code
     unstable.nerd-fonts.droid-sans-mono
     unstable.nerd-fonts.symbols-only
+    vistafonts
   ];
+  fonts.fontconfig = {
+    defaultFonts = {
+      emoji = [ "Twitter Color Emoji"];
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
