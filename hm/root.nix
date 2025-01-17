@@ -8,6 +8,7 @@
   ...
 }: {
   imports = [
+    ./terminal.nix
     catppuccin.homeManagerModules.catppuccin {
       catppuccin.enable = true;
       catppuccin.cache.enable = true;
@@ -21,10 +22,7 @@
     stateVersion = "24.11";
   };
 
-  # Enable home-manager
   programs.home-manager.enable = true;
-  programs.helix.enable = true;
-  programs.starship.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

@@ -10,9 +10,11 @@
     ./firefox.nix
     ./git.nix
     ./dconf.nix
+    ./terminal.nix
     catppuccin.homeManagerModules.catppuccin {
       catppuccin.enable = true;
       catppuccin.cache.enable = true;
+      catppuccin.cursors.enable = false;
     }
   ];
 
@@ -29,18 +31,12 @@
     uim.toolbar = "gtk3-systray";
   };
   
-  # Add stuff for your user as you see fit:
-  # home.packages = with pkgs; [ steam ];
-
-  # Enable home-manager
   programs.home-manager.enable = true;
   programs.ghostty = {
     enable = true;
     package = pkgs.unstable.ghostty;
     enableZshIntegration = true;
   };
-  programs.helix.enable = true;
-  programs.starship.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

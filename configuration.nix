@@ -132,31 +132,7 @@
         obs-text-pthread
       ];
     };
-    zsh = {
-      enable = true;
-      enableCompletion = true;
-      autosuggestions.enable = true;
-      syntaxHighlighting.enable = true;
-      histSize = 10000;
-
-      ohMyZsh = {
-        enable = true;
-        plugins = [
-          "colored-man-pages"
-          # "cp"
-          "dotenv"
-          "extract"
-          "git" "git-lfs"
-          "gpg-agent"
-          # "ipfs" "mosh" "ngrok"
-          "per-directory-history"
-          # "rsync"
-          "rust"
-          "starship"
-          "ssh"
-        ];
-      };
-    };
+    zsh.enable = true;
   };
 
   services = {
@@ -196,7 +172,6 @@
     # generic command line essentials
     vim # text editor
     helix # the cooler text editor
-    zellij # terminal multiplexer
     wget
     gparted
     yt-dlp # youtube downloader
