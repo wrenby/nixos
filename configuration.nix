@@ -43,14 +43,7 @@
     };
   };
 
-  networking = {
-    hostName = "photonix"; # Define your hostname.
-    # allow KDE connect traffic
-    firewall = rec {
-      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
-      allowedUDPPortRanges = allowedTCPPortRanges;
-    };
-  };
+  networking.hostName = "photonix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant (instead of NetworkManager!)
 
   # Configure network proxy if necessary
@@ -121,14 +114,7 @@
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.wren = {
@@ -140,56 +126,77 @@
     ];
   };
 
-  # Install firefox.
-  programs.firefox = {
-    enable = true;
-    policies = {
-      # informed by https://www.stigviewer.com/stig/mozilla_firefox/
-      DisableTelemetry = true;
-      DisableFirefoxStudies = true;
-      EnableTrackingProtection = {
-        Value = true;
-        Cryptomining = true;
-        Fingerprinting = true;
-        DisabledCiphers = {
-	  "TLS_RSA_WITH_3DES_EDE_CBC_SHA" = true;
+  # nix modules https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/programs/
+  programs = {
+    firefox = {
+      enable = true;
+      policies = {
+        # informed by https://www.stigviewer.com/stig/mozilla_firefox/
+        DisableTelemetry = true;
+        DisableFirefoxStudies = true;
+        EnableTrackingProtection = {
+          Value = true;
+          Cryptomining = true;
+          Fingerprinting = true;
+          DisabledCiphers = {
+  	  "TLS_RSA_WITH_3DES_EDE_CBC_SHA" = true;
+          };
+          SSLVersionMin = "tls1.2";
         };
-        SSLVersionMin = "tls1.2";
+        FirefoxHome = {
+          Search = true;
+          TopSites = true;
+          SponsoredTopSites = false;
+          Pocket = false;
+          SponsoredPocket = false;
+          Highlights = true;
+          Snippets = false;
+          Locked = true;
+        };
+        Preferences = let
+          lock-false = { Value = false; Status = "locked"; };
+          lock-true = { Value = true; Status = "locked"; };
+        in {
+          "browser.contentblocking.category" = { Value = "strict"; };
+          "browser.search.update" = lock-false;
+          "dom.disable_window_flip" = lock-true;
+          "dom.disable_window_move_resize" = lock-true;
+          "exensions.pocket.enabled" = lock-false;
+          "privacy.trackingprotection.cryptomining.enabled" = lock-true;
+        };
       };
-      FirefoxHome = {
-        Search = true;
-        TopSites = true;
-        SponsoredTopSites = false;
-        Pocket = false;
-        SponsoredPocket = false;
-        Highlights = true;
-        Snippets = false;
-        Locked = true;
-      };
-      Preferences = let
-        lock-false = { Value = false; Status = "locked"; };
-        lock-true = { Value = true; Status = "locked"; };
-      in {
-        "browser.contentblocking.category" = { Value = "strict"; };
-        "browser.search.update" = lock-false;
-        "dom.disable_window_flip" = lock-true;
-        "dom.disable_window_move_resize" = lock-true;
-        "exensions.pocket.enabled" = lock-false;
-        "privacy.trackingprotection.cryptomining.enabled" = lock-true;
-      };
+    };
+
+    gnupg.agent = {
+      enable = true;
+      pinentryPackage = pkgs.pinentry-gtk2;
+      # TODO: how to actually use this in programs.ssh?
+      enableSSHSupport = true;
+    };
+    ssh.startAgent = false;
+
+    kdeconnect.enable = true;
+
+    obs-studio = {
+      enable = true;
+      enableVirtualCamera = true;
+      plugins = with pkgs.obs-studio-plugins; [
+        obs-vkcapture
+        obs-backgroundremoval
+        obs-source-record
+        obs-source-clone
+        obs-text-pthread
+      ];
     };
   };
 
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-gtk2;
-    enableSSHSupport = true;
+  services = {
+    pcscd.enable = true; # smart card service for gpg agent
+    joycond.enable = true; # nintendo controllers
+    # TODO: borgmatic
   };
-  programs.ssh.startAgent = false;
-  services.pcscd.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  
+  qt.platformTheme = "qt5ct";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -217,10 +224,7 @@
     libreoffice-fresh
     siril
     discord
-    obs-studio
-    obs-studio-plugins.obs-vkcapture
     emote # emoji picker
-    kdePackages.kdeconnect-kde
 
     # development
     clinfo # opencl info
@@ -233,7 +237,6 @@
     catppuccin-kvantum
     catppuccin-plymouth
   ];
-  qt.platformTheme = "qt5ct";
 
   fonts.packages = with pkgs; [
     noto-fonts
