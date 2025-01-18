@@ -1,3 +1,4 @@
+{ pkgs, ...}:
 {
   # text editor
   programs.helix.enable = true;
@@ -5,6 +6,10 @@
   programs.starship.enable = true;
   # terminal multiplexer
   programs.zellij.enable = true;
+  programs.bat = {
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [ batdiff batman batgrep batwatch ];
+  };
   # TODO: move zsh here
   programs.zsh = {
     enable = true;

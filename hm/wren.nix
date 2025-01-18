@@ -13,7 +13,6 @@
     ./terminal.nix
     catppuccin.homeManagerModules.catppuccin {
       catppuccin.enable = true;
-      catppuccin.cache.enable = true;
       catppuccin.cursors.enable = false;
     }
   ];
