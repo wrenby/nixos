@@ -39,15 +39,8 @@
             fwsetup
           }
         '';
-        # theme = pkgs.catppuccin-grub;
-        # splashImage = null;
       };
     };
-    # plymouth = {
-    #   enable = true;
-    #   themePackages = [ pkgs.catppuccin-plymouth ];
-    #   theme = "catppuccin-macchiato";
-    # };
   };
 
   networking = {
@@ -136,15 +129,16 @@
   };
 
   services = {
-    displayManager.sddm = {
-      enable = true;
-      package = pkgs.kdePackages.sddm;
-    };
+    # displayManager.sddm = {
+    #   enable = true;
+    #   package = pkgs.kdePackages.sddm;
+    # };
     # x11
     xserver = {
       enable = true;
       videoDrivers = ["amdgpu"];
 
+      displayManager.gdm.enable = true;
       desktopManager.budgie.enable = true;
 
       # keymap
@@ -153,6 +147,7 @@
         variant = "";
       };
     };
+
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -160,16 +155,27 @@
       pulse.enable = true;
       #jack.enable = true;
     };
+
     printing.enable = true; # cups
     pcscd.enable = true; # smart card service for gpg agent
     joycond.enable = true; # nintendo controllers
+
+    # mullvad-vpn = {
+    #   enable = true;
+    #   package = pkgs.mullvad-vpn; # includes the gui and cli, where the default pkgs.mullvad only includes the cli
+    # };
+
     # TODO: borgmatic
   };
-  
+
+  # zsh completion for system programs
+  environment.pathsToLink = [ "/share/zsh" ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # generic command line essentials
+    bash
     vim # text editor
     helix # the cooler text editor
     wget

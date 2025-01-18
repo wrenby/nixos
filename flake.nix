@@ -5,9 +5,15 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      # inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
-    catppuccin.url = "github:catppuccin/nix";
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     disko = {
       url = "github:nix-community/disko/latest";
@@ -38,24 +44,18 @@
     nixosConfigurations = {
       photonix = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
+
         specialArgs = {
           inherit inputs outputs;
+
           pkgs = import nixpkgs {
+            # allow access to nixpkgs-unstable via pkgs.unstable
             inherit system;
             config.allowUnfree = true;
-            overlays = [
-              # allow access to unstable nixpkgs via nixpkgs.unstable
-              (final: prev: {
-                unstable = import nixpkgs-unstable {
-                  system = prev.system;
-                  config.allowUnfree = prev.config.allowUnfree;
-                };
-              })
-            ];
+            overlays = (import ./overlays.nix { inherit nixpkgs nixpkgs-unstable; });
           };
         };
 
-        # > Our main nixos configuration file <
         modules = [
           ./configuration.nix
           disko.nixosModules.disko
