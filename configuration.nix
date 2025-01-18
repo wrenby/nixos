@@ -31,7 +31,7 @@
       efi.canTouchEfiVariables = true;
       grub = {
         enable = true;
-        device = "nodev";
+        device = "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4Y3T9X8";
         efiSupport = true;
         useOSProber = true;
         extraEntries = ''
