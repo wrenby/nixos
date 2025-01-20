@@ -75,6 +75,10 @@
   };
 
   hardware = {
+    # enable firmware regardless of how it is licensed
+    # trickles down through a few defaults to update my amd cpu's microcode
+    # (see the bottom of hardware-configuration.nix)
+    enableAllFirmware = true;
     # formerly opengl
     graphics = {
       enable = true;
@@ -195,7 +199,7 @@
   ];
 
   # TODO: proper theming
-  qt.platformTheme = "qt5ct";
+  # qt.platformTheme = "qt5ct";
 
   fonts.packages = with pkgs; [
     noto-fonts
