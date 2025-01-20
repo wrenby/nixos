@@ -31,7 +31,7 @@
       efi.canTouchEfiVariables = true;
       grub = {
         enable = true;
-        device = "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4Y3T9X8";
+        device = "nodev";
         efiSupport = true;
         useOSProber = true;
         extraEntries = ''
@@ -39,21 +39,17 @@
             fwsetup
           }
         '';
-        # theme = pkgs.catppuccin-grub;
-        # splashImage = null;
       };
     };
-    # plymouth = {
-    #   enable = true;
-    #   themePackages = [ pkgs.catppuccin-plymouth ];
-    #   theme = "catppuccin-macchiato";
-    # };
   };
 
   networking = {
     hostName = "photonix";
     networkmanager.enable = true;
     # wireless.enable = true; # enables wireless support via wpa_supplicant (instead of NetworkManager!)
+
+    # fuck iptables all my homies hate iptables
+    nftables.enable = true;
 
     # configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
@@ -102,7 +98,7 @@
   users.users.wren = {
     isNormalUser = true;
     description = "Wren";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "wireshark" ];
   };
 
   # real-time scheduling priority access for pipewire
@@ -120,6 +116,10 @@
     ssh.startAgent = false;
 
     kdeconnect.enable = true;
+    wireshark = {
+      enable = true;
+      package = pkgs.wireshark; # gui version instead of cli program tshark
+    };
 
     obs-studio = {
       enable = true;
@@ -136,16 +136,13 @@
   };
 
   services = {
-    displayManager.sddm = {
-      enable = true;
-      package = pkgs.kdePackages.sddm;
-    };
     # x11
     xserver = {
       enable = true;
       videoDrivers = ["amdgpu"];
 
       desktopManager.budgie.enable = true;
+      displayManager.lightdm.enable = true;
 
       # keymap
       xkb = {
@@ -171,6 +168,7 @@
   environment.systemPackages = with pkgs; [
     # generic command line essentials
     vim # text editor
+    git
     helix # the cooler text editor
     wget
     gparted
@@ -183,7 +181,6 @@
     home-manager # declarative config files in the home directory
     cachix # binary cache hosting
     dconf-editor
-    dconf2nix # convert dconf to home-manager nix code
 
     # hell yeah programs
     libreoffice-fresh
@@ -195,11 +192,6 @@
     clinfo # opencl info
     vscode-fhs # vs code with native extension support
     blender-hip # gpu-accelerated blender
-
-    # theming
-    # catppuccin-gtk
-    # catppuccin-qt5ct
-    # catppuccin-kvantum
   ];
 
   # TODO: proper theming

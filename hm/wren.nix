@@ -13,7 +13,6 @@
     ./terminal.nix
     catppuccin.homeManagerModules.catppuccin {
       catppuccin.enable = true;
-      catppuccin.cache.enable = true;
       catppuccin.cursors.enable = false;
     }
   ];
@@ -34,7 +33,8 @@
   programs.home-manager.enable = true;
   programs.ghostty = {
     enable = true;
-    package = pkgs.unstable.ghostty;
+    # ghostty has landed in stable nixpkgs
+    # package = pkgs.unstable.ghostty;
     enableZshIntegration = true;
   };
 

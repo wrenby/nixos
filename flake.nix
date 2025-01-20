@@ -5,9 +5,15 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    catppuccin.url = "github:catppuccin/nix";
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     disko = {
       url = "github:nix-community/disko/latest";
@@ -62,13 +68,15 @@
           catppuccin.nixosModules.catppuccin {
             catppuccin.tty.enable = true;
             catppuccin.grub.enable = true;
-            catppuccin.sddm.enable = true;
           }
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.wren = import ./hm/wren.nix;
             home-manager.users.root = import ./hm/root.nix;
+
+            # allow home-manager to overwrite existing files by backing them up first
+            # e.g. config.yaml will become config.yaml.bak
             home-manager.backupFileExtension = "bak";
 
             home-manager.extraSpecialArgs = { inherit inputs outputs firefox-addons catppuccin; };
