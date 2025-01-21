@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   imports =
@@ -90,7 +90,7 @@
     steam-hardware.enable = true;
   };
 
-  # support for hardcoded HIP 
+  # support for hardcoded HIP
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip    -    -    -    -    ${pkgs.rocmPackages.clr}"
   ];
@@ -166,7 +166,7 @@
     joycond.enable = true; # nintendo controllers
     # TODO: borgmatic
   };
-  
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -193,8 +193,6 @@
     emote # emoji picker
 
     # development
-    clinfo # opencl info
-    vscode-fhs # vs code with native extension support
     blender-hip # gpu-accelerated blender
   ];
 

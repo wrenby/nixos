@@ -1,15 +1,10 @@
 # basically this whole file only exists because I want sudo-ed terminal programs to use the catppuccin theme
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  catppuccin,
+inputs @ {
   ...
 }: {
   imports = [
     ./terminal.nix
-    catppuccin.homeManagerModules.catppuccin {
+    inputs.catppuccin.homeManagerModules.catppuccin {
       catppuccin.enable = true;
     }
   ];
