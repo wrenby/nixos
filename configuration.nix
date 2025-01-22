@@ -148,12 +148,13 @@
       desktopManager.budgie.enable = true;
       displayManager.lightdm = {
         enable = true;
+        background = ./assets/koi.jpg;
         greeters.slick.enable = false;
         greeters.gtk = {
           enable = true;
           theme = {
-            package = (pkgs.catppuccin-gtk.override {
-              variant = "mocha";
+            package = (pkgs.catppuccin.gtk.override {
+              flavor = "mocha";
               accents = [ "mauve" ];
             });
             name = "catppuccin-mocha-mauve-standard";
@@ -170,6 +171,9 @@
             name = "Papirus-Dark";
           };
           extraConfig = ''
+            # don't preview per-user desktop backgrounds
+            user-background = false
+
             xft-antialias = true
             xft-dpi = 96
             xft-hintstyle = full

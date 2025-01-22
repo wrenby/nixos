@@ -57,6 +57,10 @@
                   config.allowUnfree = prev.config.allowUnfree;
                 };
               })
+              # allow access to catppuccin/nix via pkgs so it can more easily be configured globally
+              (final: prev: {
+                catppuccin = catppuccin.packages.${system};
+              })
             ];
           };
         };
