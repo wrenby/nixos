@@ -173,6 +173,7 @@
     # generic command line essentials
     vim # text editor
     git
+    zip unzip
     helix # the cooler text editor
     wget
     gparted
