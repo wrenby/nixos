@@ -2,7 +2,10 @@
   # text editor
   programs.helix.enable = true;
   # terminal prompt
-  programs.starship.enable = true;
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+  };
   # terminal multiplexer
   programs.zellij.enable = true;
   # better cat
