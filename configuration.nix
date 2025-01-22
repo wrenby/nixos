@@ -146,7 +146,37 @@
       videoDrivers = ["amdgpu"];
 
       desktopManager.budgie.enable = true;
-      displayManager.lightdm.enable = true;
+      displayManager.lightdm = {
+        enable = true;
+        greeters.slick.enable = false;
+        greeters.gtk = {
+          enable = true;
+          theme = {
+            package = (pkgs.catppuccin-gtk.override {
+              variant = "mocha";
+              accents = [ "mauve" ];
+            });
+            name = "catppuccin-mocha-mauve-standard";
+          };
+          cursorTheme = {
+            package = pkgs.adwaita-icon-theme;
+            name = "Adwaita";
+          };
+          iconTheme = {
+            package = (pkgs.catppuccin-papirus-folders.override {
+              flavor = "mocha";
+              accent = "mauve";
+            });
+            name = "Papirus-Dark";
+          };
+          extraConfig = ''
+            xft-antialias = true
+            xft-dpi = 96
+            xft-hintstyle = full
+            xft-rgba = rgb
+          '';
+        };
+      };
 
       # keymap
       xkb = {
@@ -195,6 +225,8 @@
 
     # development
     blender-hip # gpu-accelerated blender
+
+    adwaita-icon-theme
   ];
 
   # TODO: proper theming
