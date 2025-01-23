@@ -153,13 +153,12 @@
         greeters.gtk = {
           enable = true;
           theme = {
-            package = (pkgs.catppuccin.gtk.override {
-              flavor = "mocha";
+            package = (pkgs.catppuccin-gtk.override {
+              variant = "mocha";
               accents = [ "mauve" ];
-              allAccents = false;
               size = "compact";
             });
-            name = "catppuccin-mocha-mauve-standard+default";
+            name = "catppuccin-mocha-mauve-compact";
           };
           cursorTheme = {
             package = pkgs.adwaita-icon-theme;
@@ -179,6 +178,8 @@
             xft-antialias = true
             xft-dpi = 96
             xft-hintstyle = full
+            # subpixel layout, see http://www.lagom.nl/lcd-test/subpixel.php
+            xft-rgba = rgb
           '';
         };
       };

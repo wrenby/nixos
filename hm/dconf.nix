@@ -156,7 +156,7 @@ with lib.hm.gvariant;
       cursor-theme = "Adwaita";
       font-antialiasing = "rgba";
       font-hinting = "full";
-      gtk-theme = "catppuccin-mocha-mauve-compact+default";
+      gtk-theme = "catppuccin-mocha-mauve-compact";
       icon-theme = "Papirus-Dark";
     };
 
