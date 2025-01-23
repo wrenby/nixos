@@ -5,11 +5,11 @@ with lib.hm.gvariant;
 
 {
   dconf.settings = {
-    "ca/desrt/dconf-editor" = {
+    "system/locale/ca/desrt/dconf-editor" = {
       show-warning = false;
     };
 
-    "com/solus-project/budgie-panel" = {
+    "system/locale/com/solus-project/budgie-panel" = {
       builtin-theme = false;
       dark-theme = true;
       migration-level = 1;
@@ -17,75 +17,75 @@ with lib.hm.gvariant;
       panels = [ "78dfc77a-ca1d-11ef-be59-7085c2976f67" ];
     };
 
-    "com/solus-project/budgie-panel/applets/{78e02b70-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/applets/{78e02b70-ca1d-11ef-be59-7085c2976f67}" = {
       alignment = "start";
       name = "Budgie Menu";
       position = 0;
     };
 
-    "com/solus-project/budgie-panel/applets/{7a4be4f4-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/applets/{7a4be4f4-ca1d-11ef-be59-7085c2976f67}" = {
       alignment = "start";
       name = "Icon Task List";
       position = 1;
     };
 
-    "com/solus-project/budgie-panel/applets/{7a5d70a2-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/applets/{7a5d70a2-ca1d-11ef-be59-7085c2976f67}" = {
       alignment = "end";
       name = "System Tray";
       position = 0;
     };
 
-    "com/solus-project/budgie-panel/applets/{7a6b128e-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/applets/{7a6b128e-ca1d-11ef-be59-7085c2976f67}" = {
       alignment = "end";
       name = "Notifications";
       position = 1;
     };
 
-    "com/solus-project/budgie-panel/applets/{7a8207d2-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/applets/{7a8207d2-ca1d-11ef-be59-7085c2976f67}" = {
       alignment = "end";
       name = "Status Indicator";
       position = 2;
     };
 
-    "com/solus-project/budgie-panel/applets/{7a9b8bbc-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/applets/{7a9b8bbc-ca1d-11ef-be59-7085c2976f67}" = {
       alignment = "end";
       name = "Clock";
       position = 3;
     };
 
-    "com/solus-project/budgie-panel/applets/{7aa4db04-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/applets/{7aa4db04-ca1d-11ef-be59-7085c2976f67}" = {
       alignment = "end";
       name = "Raven Trigger";
       position = 4;
     };
 
-    "com/solus-project/budgie-panel/instance/budgie-menu/{78e02b70-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/instance/budgie-menu/{78e02b70-ca1d-11ef-be59-7085c2976f67}" = {
       menu-categories-hover = false;
       menu-compact = false;
       menu-headers = true;
       menu-show-control-center-items = true;
     };
 
-    "com/solus-project/budgie-panel/instance/icon-tasklist/{7a4be4f4-ca1d-11ef-be59-7085c2976f67}" = {
-      pinned-launchers = [ "firefox.desktop" "code-url-handler.desktop" "nemo.desktop" "com.mitchellh.ghostty.desktop" ];
+    "system/locale/com/solus-project/budgie-panel/instance/icon-tasklist/{7a4be4f4-ca1d-11ef-be59-7085c2976f67}" = {
+      pinned-launchers = [ "firefox.desktop" "codium.desktop" "nemo.desktop" "com.mitchellh.ghostty.desktop" ];
     };
 
-    "com/solus-project/budgie-panel/panels/{78dfc77a-ca1d-11ef-be59-7085c2976f67}" = {
+    "system/locale/com/solus-project/budgie-panel/panels/{78dfc77a-ca1d-11ef-be59-7085c2976f67}" = {
       applets = [ "78e02b70-ca1d-11ef-be59-7085c2976f67" "7a5d70a2-ca1d-11ef-be59-7085c2976f67" "7a8207d2-ca1d-11ef-be59-7085c2976f67" "7a9b8bbc-ca1d-11ef-be59-7085c2976f67" "7aa4db04-ca1d-11ef-be59-7085c2976f67" "7a4be4f4-ca1d-11ef-be59-7085c2976f67" "7a6b128e-ca1d-11ef-be59-7085c2976f67" ];
-      autohide = "intelligent";
+      autohide = "none";
       dock-mode = false;
-      enable-shadow = false;
+      enable-shadow = true;
       location = "bottom";
       size = 36;
       spacing = 2;
       transparency = "always";
     };
 
-    "com/solus-project/budgie-raven" = {
+    "system/locale/com/solus-project/budgie-raven" = {
       allow-volume-overdrive = false;
     };
 
-    "com/solus-project/budgie-wm" = {
+    "system/locale/com/solus-project/budgie-wm" = {
       attach-modal-dialogs = true;
       button-layout = "appmenu:minimize,maximize,close";
       button-style = "traditional";
@@ -95,141 +95,177 @@ with lib.hm.gvariant;
       pause-notifications-on-fullscreen = true;
     };
 
-    "io/missioncenter/MissionCenter" = {
+    "system/locale/io/missioncenter/MissionCenter" = {
       performance-selected-page = "cpu";
       window-height = 576;
       window-selected-page = "performance-page";
       window-width = 1024;
     };
 
-    "org/buddiesofbudgie/budgie-desktop-view" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop-view" = {
       terminal = "ghostty";
     };
 
-    "org/buddiesofbudgie/budgie-desktop/raven/widgets" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop/raven/widgets" = {
       initialized = true;
       uuids = [ "517891e8-916d-4260-a9d5-c19d38d13cdf" "ee410402-7380-4935-9923-51b7fc2be93c" "5e464e5f-36fb-488a-91c8-3b14161d513e" "02a42472-3085-4eb9-86a8-3d25abbe22be" "04e3685e-de2e-47fc-9bdb-f6c18fd7ac17" ];
     };
 
-    "org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/02a42472-3085-4eb9-86a8-3d25abbe22be" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/02a42472-3085-4eb9-86a8-3d25abbe22be" = {
       module = "org.buddiesofbudgie.budgie-desktop.raven.widget.SoundInput.so";
     };
 
-    "org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/04e3685e-de2e-47fc-9bdb-f6c18fd7ac17" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/04e3685e-de2e-47fc-9bdb-f6c18fd7ac17" = {
       module = "org.buddiesofbudgie.budgie-desktop.raven.widget.MediaControls.so";
     };
 
-    "org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/517891e8-916d-4260-a9d5-c19d38d13cdf" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/517891e8-916d-4260-a9d5-c19d38d13cdf" = {
       module = "org.buddiesofbudgie.budgie-desktop.raven.widget.Calendar.so";
     };
 
-    "org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/5e464e5f-36fb-488a-91c8-3b14161d513e" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/5e464e5f-36fb-488a-91c8-3b14161d513e" = {
       module = "org.buddiesofbudgie.budgie-desktop.raven.widget.SoundOutput.so";
     };
 
-    "org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/ee410402-7380-4935-9923-51b7fc2be93c" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-info/ee410402-7380-4935-9923-51b7fc2be93c" = {
       module = "org.buddiesofbudgie.budgie-desktop.raven.widget.UsageMonitor.so";
     };
 
-    "org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-settings/517891e8-916d-4260-a9d5-c19d38d13cdf" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-settings/517891e8-916d-4260-a9d5-c19d38d13cdf" = {
       show-week-numbers = false;
     };
 
-    "org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-settings/5e464e5f-36fb-488a-91c8-3b14161d513e" = {
+    "system/locale/org/buddiesofbudgie/budgie-desktop/raven/widgets/instance-settings/5e464e5f-36fb-488a-91c8-3b14161d513e" = {
       allow-volume-overdrive = true;
     };
 
-    "org/buddiesofbudgie/control-center" = {
-      last-panel = "bluetooth";
+    "system/locale/org/buddiesofbudgie/control-center" = {
+      last-panel = "color";
       window-state = mkTuple [ 980 640 false ];
     };
 
-    "org/gnome/desktop/input-sources" = {
+    "system/locale/org/gnome/desktop/input-sources" = {
       current = mkUint32 0;
       per-window = false;
       sources = [ (mkTuple [ "xkb" "us" ]) ];
       xkb-options = [ "terminate:ctrl_alt_bksp" ];
     };
 
-    "org/gnome/desktop/interface" = {
+    "system/locale/org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
       cursor-theme = "Adwaita";
       font-antialiasing = "rgba";
       font-hinting = "full";
-      gtk-theme = "Qogir-Dark";
-      icon-theme = "Qogir-dark";
+      gtk-theme = "catppuccin-mocha-mauve-compact+default";
+      icon-theme = "Papirus-Dark";
     };
 
-    "org/gnome/desktop/peripherals/mouse" = {
+    "system/locale/org/gnome/desktop/peripherals/mouse" = {
       accel-profile = "flat";
       speed = mkDouble "1.0";
     };
 
-    "org/gnome/desktop/peripherals/touchpad" = {
+    "system/locale/org/gnome/desktop/peripherals/touchpad" = {
       two-finger-scrolling-enabled = true;
     };
 
-    "org/gnome/desktop/screensaver" = {
+    "system/locale/org/gnome/desktop/screensaver" = {
       lock-delay = mkUint32 30;
     };
 
-    "org/gnome/desktop/session" = {
+    "system/locale/org/gnome/desktop/session" = {
       idle-delay = mkUint32 600;
     };
 
-    "org/gnome/desktop/sound" = {
+    "system/locale/org/gnome/desktop/sound" = {
       allow-volume-above-100-percent = false;
     };
 
-    "org/gnome/desktop/wm/preferences" = {
+    "system/locale/org/gnome/desktop/wm/preferences" = {
       auto-raise = false;
       auto-raise-delay = 250;
       button-layout = "appmenu:minimize,maximize,close";
       focus-mode = "click";
     };
 
-    "org/gnome/evolution-data-server" = {
+    "system/locale/org/gnome/evolution-data-server" = {
       migrated = true;
     };
 
-    "org/gnome/mutter" = {
+    "system/locale/org/gnome/mutter" = {
       attach-modal-dialogs = true;
     };
 
-    "org/gnome/settings-daemon/plugins/media-keys" = {
+    "system/locale/org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" ];
     };
 
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+    "system/locale/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       binding = "<Primary><Shift>Escape";
       command = "missioncenter";
       name = "Launch Mission Center";
     };
 
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+    "system/locale/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
       binding = "<Alt><Super>space";
       command = "emote";
       name = "Emoji Picker";
     };
 
-    "org/gnome/settings-daemon/plugins/power" = {
+    "system/locale/org/gnome/settings-daemon/plugins/power" = {
       idle-dim = true;
       sleep-inactive-ac-timeout = 900;
       sleep-inactive-battery-timeout = 900;
     };
 
-    "org/gnome/settings-daemon/plugins/xsettings" = {
+    "system/locale/org/gnome/settings-daemon/plugins/xsettings" = {
       overrides = [
         (mkDictionaryEntry ["Gtk/ShellShowsAppMenu" (mkVariant 0)])
         (mkDictionaryEntry ["Gtk/DecorationLayout" (mkVariant "menu:minimize,maximize,close")])
       ];
     };
 
-    "org/mate/eom/ui" = {
-      image-collection = false;
+    "system/locale/org/gtk/settings/file-chooser" = {
+      date-format = "regular";
+      location-mode = "path-bar";
+      show-hidden = true;
+      show-size-column = true;
+      show-type-column = true;
+      sidebar-width = 148;
+      sort-column = "name";
+      sort-directories-first = false;
+      sort-order = "ascending";
+      type-format = "category";
+      window-position = mkTuple [ 742 161 ];
+      window-size = mkTuple [ 1096 822 ];
     };
 
-    "org/mate/pluma" = {
+    "system/locale/org/mate/engrampa/general" = {
+      unar-open-zip = false;
+    };
+
+    "system/locale/org/mate/engrampa/listing" = {
+      list-mode = "as-folder";
+      name-column-width = 364;
+      show-path = false;
+      sort-method = "size";
+      sort-type = "ascending";
+    };
+
+    "system/locale/org/mate/engrampa/ui" = {
+      sidebar-width = 200;
+      window-height = 480;
+      window-width = 600;
+    };
+
+    "system/locale/org/mate/eom/ui" = {
+      image-collection = false;
+      sidebar = false;
+      statusbar = true;
+      toolbar = true;
+    };
+
+    "system/locale/org/mate/pluma" = {
       bottom-panel-size = 140;
       side-panel-active-page = 827629879;
       side-panel-size = 200;
@@ -238,13 +274,13 @@ with lib.hm.gvariant;
       statusbar-visible = true;
     };
 
-    "org/mate/pluma/plugins/filebrowser/on-load" = {
+    "system/locale/org/mate/pluma/plugins/filebrowser/on-load" = {
       root = "file:///";
       tree-view = false;
       virtual-root = "file:///run/media/wren/NIXOS-PLASM/conf/ghostty";
     };
 
-    "org/nemo/window-state" = {
+    "system/locale/org/nemo/window-state" = {
       geometry = "800x550+50+50";
       maximized = false;
       sidebar-bookmark-breakpoint = 0;
