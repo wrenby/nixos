@@ -156,8 +156,10 @@
             package = (pkgs.catppuccin.gtk.override {
               flavor = "mocha";
               accents = [ "mauve" ];
+              allAccents = false;
+              size = "compact";
             });
-            name = "catppuccin-mocha-mauve-standard";
+            name = "catppuccin-mocha-mauve-standard+default";
           };
           cursorTheme = {
             package = pkgs.adwaita-icon-theme;
@@ -177,7 +179,6 @@
             xft-antialias = true
             xft-dpi = 96
             xft-hintstyle = full
-            xft-rgba = rgb
           '';
         };
       };

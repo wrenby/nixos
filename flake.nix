@@ -57,7 +57,7 @@
                   config.allowUnfree = prev.config.allowUnfree;
                 };
               })
-              # allow access to catppuccin/nix via pkgs so it can more easily be configured globally
+              # allow access to packages declared in catppuccin/nix via pkgs so it can more easily be configured globally
               (final: prev: {
                 catppuccin = catppuccin.packages.${system};
               })
@@ -72,6 +72,9 @@
           catppuccin.nixosModules.catppuccin {
             catppuccin.tty.enable = true;
             catppuccin.grub.enable = true;
+            catppuccin.accent = "mauve";
+            catppuccin.flavor = "mocha";
+            # pkgs.catppuccin.gtk.tweaks = [ "rimless" "float" ];
           }
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
