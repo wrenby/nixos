@@ -16,6 +16,10 @@
     enableCompletion = true;
     autocd = true;
     autosuggestion.enable = true;
+    syntaxHighlighting = {
+      enable = true;
+      highlighters = [ "main" "brackets" ];
+    };
     oh-my-zsh = {
       enable = true;
       plugins = [
