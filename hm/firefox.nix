@@ -16,16 +16,34 @@
                 { name = "query"; value = "{searchTerms}"; }
               ];
             }];
-            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = [ "@np" ];
-          }; # nixpkgs search
+          };
+          "NixOS Options" = {
+            urls = [{
+              template = "https://search.nixos.org/options";
+              params = [
+                { name = "type"; value = "packages"; }
+                { name = "query"; value = "{searchTerms}"; }
+              ];
+            }];
+            definedAliases = [ "@opt" ];
+          };
+          "Nix Code on GitHub" = {
+            urls = [{
+              template = "https://github.com/search";
+              params = [
+                { name = "type"; value = "code"; }
+                { name = "q"; value = "lang%3Anix+{searchTerms}"; }
+              ];
+            }];
+            definedAliases = [ "@nixgh" ];
+          };
         }; # search engines
-      };
+      }; # search
       extensions = with firefox-addons.packages."x86_64-linux"; [
         addy_io
         bitwarden
         catppuccin-gh-file-explorer
-        clearurls
         consent-o-matic
         cookie-autodelete
         temporary-containers
@@ -44,6 +62,14 @@
                   url = "https://nixos-and-flakes.thiscute.world/";
                 }
                 {
+                  name = "Zero to Nix";
+                  url = "https://zero-to-nix.com/";
+                }
+                {
+                  name = "nix.dev";
+                  url = "https://nix.dev/";
+                }
+                {
                   name = "Nix Pills";
                   url = "https://nixos.org/guides/nix-pills/";
                 }
@@ -56,7 +82,7 @@
                   url = "https://search.nixos.org/packages";
                 }
                 {
-                  name = "Manual";
+                  name = "NixOS Manual";
                   url = "https://nixos.org/manual/nixos/stable/";
                 }
                 {

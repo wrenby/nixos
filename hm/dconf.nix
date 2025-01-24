@@ -298,7 +298,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/settings-daemon/plugins/color" = {
-      night-light-enabled = true;
+      night-light-enabled = false;
       night-light-schedule-automatic = true;
     };
 
